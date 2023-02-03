@@ -87,16 +87,25 @@ function createLiveSearch() {
 
   showAmountOfEpisodes();
 
-  const changeAmountOfEpisodes = (amount) => {
-    let amountOfEpisodes1 = document.querySelector(".amount-of-episodes");
-    amountOfEpisodes1.innerHTML = `Displaying ${count}/${allEpisodes.length} episodes`;
-  };
-
   search.addEventListener("input", (event) => {
     search_episode = event.target.value.toLowerCase();
     showList();
-    changeAmountOfEpisodes(count);
+    changeAmountOfEpisodes(allEpisodes);
   });
+}
+
+// changing the info about amount of episodes on the screen
+function changeAmountOfEpisodes(allEpisodes) {
+  const episodes = document.querySelector(".episodes");
+  let amountOfEpisodes1 = document.querySelector(".amount-of-episodes");
+  let liNodes = [];
+
+  for (var i = 0; i < episodes.childNodes.length; i++) {
+    if (episodes.childNodes[i].nodeName == "LI") {
+      liNodes.push(episodes.childNodes[i]);
+    }
+    amountOfEpisodes1.innerHTML = `Displaying ${liNodes.length}/${allEpisodes.length} episodes`;
+  }
 }
 
 //creating select menu for choosing one episode from the list
@@ -133,11 +142,13 @@ function createSelectMenuEpisode(allEpisodes) {
       allEpisodes.forEach((episode) => {
         createOneEpisode(episode);
       });
+      changeAmountOfEpisodes(allEpisodes);
     } else {
       const result = allEpisodes.find((episode) => {
         return event.target.value.includes(episode.name);
       });
       createOneEpisode(result);
+      changeAmountOfEpisodes(allEpisodes);
     }
   });
 }
