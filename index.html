@@ -5,19 +5,55 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TV Show Project | VitalinaKuzmenko</title>
-  <link href="style.css" rel="stylesheet" />
+  <link href="styles/style-header.css" rel="stylesheet" />
+  <link href="styles/style.css" rel="stylesheet" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+  <!-- adding google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&family=Stylish&display=swap"
+    rel="stylesheet">
+
 </head>
 
 <body>
-  <div id="root">
-  </div>
+  <header>
+    <nav>
+      <div class="image-n-logo">
+        <img class="logo-img" src="media/Logo_small.png" alt="Logo">
+        <a href="#index.html" class="logo"> TV Project</a>
+      </div>
+      <div>
+        <ul id="nav">
+          <li><a href="#">TV Series</a></li>
+          <li><a href="#">Films</a></li>
+          <li><a href="#">Shows</a></li>
+        </ul>
+      </div>
+      <div class="menu" id="menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+  </header>
+  <main id="root">
+  </main>
 
+  <footer>
+    <p>Data come from TVMaze.com</p>
+    <hr>
+    <p><a target="_blank" href="https://github.com/VitalinaKuzmenko/tv-show-dom-project">Open-source code</a>, by
+      Vitalina Kuzmenko</p>
+    <hr>
+    <p>Made with love! 🤍</p>
+  </footer>
   <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-  <script src="episodes.js"></script>
+  <script src="src/episodes.js"></script>
 
   <!-- Loads YOUR javascript code -->
-  <script src="script.js"></script>
+  <script src="src/script.js"></script>
 </body>
 
 </html>
