@@ -14,6 +14,7 @@ main {
   background-image: linear-gradient(to right, #050343, #a0090a, #050343);
 }
 
+/* filter menu */
 .filter-menu {
   display: block;
   margin: 0 auto;
@@ -44,6 +45,18 @@ main {
   margin-top: 10px;
 }
 
+.filter-menu .select-episode {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid white;
+  border-radius: 20px;
+  background-color: var(--dark-blue);
+  color: white;
+  font-family: var(--p-font);
+  margin-bottom: 10px;
+}
+
+/* list with episodes */
 .episodes {
   display: block;
   margin: 0 auto;
@@ -117,7 +130,13 @@ footer hr {
     width: 72%;
   }
 
+  .filter-menu .select-episode {
+    width: 30%;
+    margin-bottom: 0;
+  }
+
   .filter-menu .search-episode {
+    margin-left: 15px;
     width: 30%;
   }
 
