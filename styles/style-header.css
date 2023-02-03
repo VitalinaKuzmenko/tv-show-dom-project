@@ -142,8 +142,10 @@ nav .menu.active span:nth-child(2) {
     top: 56px;
     height: var(--height);
     transition: 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    z-index: 2;
   }
   nav ul.active {
+    z-index: 2;
     --height: calc(
       (((var(--padding) * 2) + (var(--font-size) * 1.5))) * var(--childenNumber)
     );
