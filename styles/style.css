@@ -12,20 +12,23 @@ body {
 
 main {
   background-image: linear-gradient(to right, #050343, #a0090a, #050343);
-  height: 80vh;
 }
 
 .episodes {
-  margin: 10% 2%;
+  display: block;
+  margin: 0 auto;
   display: flex;
   flex-flow: row wrap;
   color: white;
+  margin-top: 50px;
+  width: 90%;
 }
 
 .episode {
   padding: 10px;
   display: block;
   margin: 0 auto;
+  margin-bottom: 30px;
 }
 
 .episode img {
@@ -38,8 +41,8 @@ main {
 .episode h1 {
   width: 250px;
   font-family: var(--title-font);
-  font-size: 20px;
-  margin-top: 20px;
+  font-size: 17px;
+  margin-top: 15px;
   text-align: start;
 }
 
@@ -47,7 +50,7 @@ main {
   width: 250px;
   padding-top: 5px;
   font-family: var(--p-font);
-  font-size: 16px;
+  font-size: 14px;
 }
 
 footer {
@@ -55,6 +58,7 @@ footer {
   font-family: var(--title-font);
   font-size: 14px;
   color: white;
+  position: relative;
 }
 
 footer p {
@@ -86,5 +90,11 @@ footer hr {
 
   footer hr {
     display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .episodes {
+    width: 75%;
   }
 }
