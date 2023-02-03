@@ -1,20 +1,29 @@
+:root {
+  --main-clr: #9f0809;
+  --dark-blue: #0f043b;
+  --nav-shadow: 0px 3px var(--main-clr);
+  --p-font: "Stylish", sans-serif;
+  --title-font: "Love Ya Like A Sister", cursive;
+}
+
 .carouselOfImages {
-  max-width: 960px;
+  width: 70%;
   margin: auto;
   overflow: visible;
 }
 .carouselImage {
-  width: 200px;
-  height: 200px;
-  margin-top: 65px;
-  margin-bottom: 100px;
+  height: 160px;
+  width: 128px;
+  margin-top: 20px;
+  margin-bottom: 10px;
   border-radius: 5px;
   counter-increment: carousel-cell;
   transition: transform 0.5s;
   transform: scale(1);
 }
 .carouselImage img {
-  height: 235px;
+  height: 160px;
+  width: 106px;
 }
 .carouselImage.is-selected {
   z-index: 10;
@@ -76,12 +85,12 @@ https://flickity.metafizzy.co
 .flickity-prev-next-button {
   position: absolute;
   top: 50%;
-  width: 44px;
-  height: 44px;
+  width: 32px !important;
+  height: 32px !important;
   border: none;
   border-radius: 50%;
-  background: white;
-  background: hsla(0, 0%, 100%, 0.75);
+  background: #02000aa3 !important;
+  background: hsla(0, 93%, 48%, 0.75);
   cursor: pointer;
   /* vertically center */
   -webkit-transform: translateY(-50%);
@@ -89,7 +98,7 @@ https://flickity.metafizzy.co
 }
 
 .flickity-prev-next-button:hover {
-  background: white;
+  background: rgba(19, 0, 0, 0.815) !important;
 }
 
 .flickity-prev-next-button:focus {
@@ -132,6 +141,10 @@ https://flickity.metafizzy.co
 
 .flickity-prev-next-button .arrow {
   fill: #333;
+}
+
+.flickity-prev-next-button .arrow {
+  fill: white !important;
 }
 
 /* ---- page dots ---- */
