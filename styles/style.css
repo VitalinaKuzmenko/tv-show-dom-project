@@ -35,6 +35,13 @@ main {
 
 ::placeholder {
   color: white;
+  font-family: var(--p-font);
+}
+
+.filter-menu .amount-of-episodes {
+  font-family: var(--p-font);
+  margin-left: 5px;
+  margin-top: 10px;
 }
 
 .episodes {
@@ -111,7 +118,11 @@ footer hr {
   }
 
   .filter-menu .search-episode {
-    width: 20%;
+    width: 30%;
+  }
+
+  .filter-menu .amount-of-episodes {
+    margin-left: 15px;
   }
 
   .episodes {
@@ -125,5 +136,11 @@ footer hr {
 
   footer hr {
     display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .filter-menu .search-episode {
+    width: 200px;
   }
 }

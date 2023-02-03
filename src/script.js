@@ -69,8 +69,10 @@ function createLiveSearch() {
 
   const allEpisodes = getAllEpisodes();
   let search_episode = "";
+  let count = 0;
 
   const showList = () => {
+    count = 0;
     episodes.innerHTML = " ";
     allEpisodes
       .filter((episode) => {
@@ -80,14 +82,30 @@ function createLiveSearch() {
         );
       })
       .forEach((e) => {
+        count++;
         makeOneEpisode(e);
       });
   };
   showList();
 
+  const showAmountOfEpisodes = () => {
+    let amountOfEpisodes = document.createElement("p");
+    amountOfEpisodes.classList.add("amount-of-episodes");
+    filterSection.appendChild(amountOfEpisodes);
+    amountOfEpisodes.innerHTML = `Displaying ${allEpisodes.length}/${allEpisodes.length} episodes`;
+  };
+
+  showAmountOfEpisodes();
+
+  const changeAmountOfEpisodes = (amount) => {
+    let amountOfEpisodes1 = document.querySelector(".amount-of-episodes");
+    amountOfEpisodes1.innerHTML = `Displaying ${count}/${allEpisodes.length} episodes`;
+  };
+
   search.addEventListener("input", (event) => {
     search_episode = event.target.value.toLowerCase();
     showList();
+    changeAmountOfEpisodes(count);
   });
 }
 
