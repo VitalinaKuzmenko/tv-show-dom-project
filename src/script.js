@@ -74,7 +74,6 @@ function createLiveSearch() {
     episodes.innerHTML = " ";
     allEpisodes
       .filter((episode) => {
-        console.log(episode.name);
         return (
           episode.summary.toLowerCase().includes(search_episode) ||
           episode.name.toLowerCase().includes(search_episode)
