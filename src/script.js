@@ -1,9 +1,11 @@
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
+  createSelectMenuEpisode(allEpisodes);
   createLiveSearch();
 }
 
+//creating the list with episodes, adding all the episodes from the array to this list
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
   let episodes = document.createElement("ul");
@@ -11,24 +13,11 @@ function makePageForEpisodes(episodeList) {
   rootElem.appendChild(episodes);
   //looping through episode list and displaying episode on webpage
   episodeList.forEach((episodeFromList) => {
-    let episode = document.createElement("li");
-    episode.classList.add("episode");
-    episodes.appendChild(episode);
-    let img = document.createElement("img");
-    let title = document.createElement("h1");
-    let paragraph = document.createElement("p");
-    img.src = episodeFromList.image.medium;
-    title.innerHTML = `${createEpisodeName(
-      episodeFromList.season,
-      episodeFromList.number
-    )} - ${episodeFromList.name}`;
-    paragraph.innerHTML = episodeFromList.summary;
-    episode.appendChild(img);
-    episode.appendChild(title);
-    episode.appendChild(paragraph);
+    createOneEpisode(episodeFromList);
   });
 }
 
+//creating episode name like "S01E01"
 function createEpisodeName(season, episode) {
   if (season < 10) season = "0" + season;
   if (episode < 10) episode = "0" + episode;
@@ -36,7 +25,8 @@ function createEpisodeName(season, episode) {
   return `S${season}E${episode}`;
 }
 
-function makeOneEpisode(episodeFromList) {
+//creating and displaying one episode
+function createOneEpisode(episodeFromList) {
   const episodes = document.querySelector(".episodes");
   let episode = document.createElement("li");
   episode.classList.add("episode");
@@ -55,7 +45,7 @@ function makeOneEpisode(episodeFromList) {
   episode.appendChild(paragraph);
 }
 
-// create live search input for episodes
+// creating live search input for episodes
 function createLiveSearch() {
   const filterSection = document.querySelector(".filter-menu");
   const episodes = document.querySelector(".episodes");
@@ -83,7 +73,7 @@ function createLiveSearch() {
       })
       .forEach((e) => {
         count++;
-        makeOneEpisode(e);
+        createOneEpisode(e);
       });
   };
   showList();
@@ -106,6 +96,49 @@ function createLiveSearch() {
     search_episode = event.target.value.toLowerCase();
     showList();
     changeAmountOfEpisodes(count);
+  });
+}
+
+//creating select menu for choosing one episode from the list
+function createSelectMenuEpisode(allEpisodes) {
+  const filterSection = document.querySelector(".filter-menu");
+  const selectMenuEpisode = document.createElement("select");
+  const episodes = document.querySelector(".episodes");
+
+  selectMenuEpisode.classList.add("select-episode");
+  selectMenuEpisode.setAttribute("name", "names_of_episodes");
+  filterSection.appendChild(selectMenuEpisode);
+
+  //creating all episodes value
+  let option = document.createElement("option");
+  option.innerHTML = "All episodes";
+  option.setAttribute("value", `All episodes`);
+  selectMenuEpisode.appendChild(option);
+
+  //creating options
+  allEpisodes.forEach((episodeFromList) => {
+    let option = document.createElement("option");
+    let value = `${createEpisodeName(
+      episodeFromList.season,
+      episodeFromList.number
+    )} - ${episodeFromList.name}`;
+    option.innerHTML = value;
+    option.setAttribute("value", `${value}`);
+    selectMenuEpisode.appendChild(option);
+  });
+
+  selectMenuEpisode.addEventListener("change", (event) => {
+    episodes.innerHTML = " ";
+    if (event.target.value === "All episodes") {
+      allEpisodes.forEach((episode) => {
+        createOneEpisode(episode);
+      });
+    } else {
+      const result = allEpisodes.find((episode) => {
+        return event.target.value.includes(episode.name);
+      });
+      createOneEpisode(result);
+    }
   });
 }
 
