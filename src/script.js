@@ -1,8 +1,22 @@
 function setup() {
-  const allEpisodes = getAllEpisodes();
+  let allEpisodes = [];
+  fetchEpisodeList();
   makePageForEpisodes(allEpisodes);
   createSelectMenuEpisode(allEpisodes);
   createLiveSearch();
+}
+
+//getting episode list from API
+async function fetchAllEpisodesList() {
+  try {
+    const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
+    if (response.status === 404) throw new Error("Episodes are not found");
+    const data = await response.json();
+    episodesList = data;
+    console.log(data);
+  } catch (error) {
+    console.log("error", error);
+  }
 }
 
 //creating the list with episodes, adding all the episodes from the array to this list
