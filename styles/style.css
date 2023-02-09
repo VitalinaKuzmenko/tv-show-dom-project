@@ -13,6 +13,9 @@ body {
 main {
   background-image: linear-gradient(to right, #050343, #a0090a, #050343);
 }
+.not-active {
+  display: none;
+}
 
 .shows {
   display: block;
@@ -41,6 +44,12 @@ main {
   border: 1px solid white;
   border-radius: 20px;
   cursor: pointer;
+}
+
+.shows img:hover {
+  color: #0f043b;
+  border: 2px solid #0f043b;
+  box-shadow: 0 0 10px 5px;
 }
 
 .shows h1 {
