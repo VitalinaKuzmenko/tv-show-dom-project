@@ -13,13 +13,26 @@ body {
 main {
   background-image: linear-gradient(to right, #050343, #a0090a, #050343);
 }
+
 .shows {
+  display: block;
+  margin: 0 auto;
   display: flex;
-  /* flex-flow: row wrap; */
   flex-direction: column;
   color: white;
   margin-top: 50px;
-  width: 90%;
+  width: 80%;
+}
+
+.shows .show {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px 0;
+}
+
+.shows .info-about-show {
+  margin: 15px 0;
 }
 
 .shows img {
@@ -29,10 +42,16 @@ main {
   border-radius: 20px;
 }
 
-.shows .show {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.shows h1 {
+  font-family: var(--title-font);
+  font-size: 26px;
+  margin-top: 15px;
+}
+
+.shows p {
+  font-family: var(--p-font);
+  font-size: 18px;
+  text-align: justify;
 }
 
 /* filter menu */
@@ -150,6 +169,24 @@ footer hr {
 }
 
 @media (min-width: 768px) {
+  .shows {
+    width: 72%;
+  }
+
+  .shows .show {
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 20px 0;
+  }
+
+  .shows h1 {
+    margin: 0;
+  }
+
+  .shows .div2 {
+    margin-left: 20px;
+  }
+
   .filter-menu {
     width: 72%;
   }

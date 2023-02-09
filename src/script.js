@@ -1,7 +1,7 @@
 function setup() {
   let showsList = getAllShows();
-  // createSelectMenuShows(showsList);
-  makePageForShows(showsList);
+  createSelectMenuShows(showsList);
+  // makePageForShows(showsList);
 }
 
 function createSelectMenuShows(showsList) {
@@ -53,9 +53,12 @@ function makePageForShows(showsList) {
   let shows = document.createElement("ul");
   shows.classList.add("shows");
   rootElem.appendChild(shows);
+
   //looping through episode list and displaying episode on webpage
   showsList.forEach((showFromList) => {
     createOneShow(showFromList);
+    let hr = document.createElement("hr");
+    shows.appendChild(hr);
   });
 }
 
@@ -74,13 +77,15 @@ function createOneShow(showFromList) {
   show.append(div1, div2);
 
   let img = document.createElement("img");
+
   img.src = showFromList.image.medium;
 
   div1.appendChild(img);
 
   let title = document.createElement("h1");
   let infoAboutShow = document.createElement("div");
-  console.log(showFromList.name);
+  infoAboutShow.classList.add("info-about-show");
+
   title.innerHTML = showFromList.name;
   let paragraph = document.createElement("p");
   paragraph.innerHTML = showFromList.summary;
@@ -91,11 +96,19 @@ function createOneShow(showFromList) {
   let year = document.createElement("p");
   let status = document.createElement("p");
   let runtime = document.createElement("p");
-  rating.innerHTML = showFromList.rating.average;
-  genres.innerHTML = showFromList.genres;
-  year.innerHTML = showFromList.premiered;
-  status.innerHTML = showFromList.status;
-  runtime.innerHTML = showFromList.runtime + " min";
+  rating.innerHTML = "Rated: " + showFromList.rating.average;
+  let genresString = "Rated: ";
+  for (let i = 0; i < showFromList.genres.length; i++) {
+    if (i === showFromList.genres.length - 1) {
+      genresString += showFromList.genres[i];
+    } else {
+      genresString += showFromList.genres[i] + " | ";
+    }
+  }
+  genres.innerHTML = genresString;
+  year.innerHTML = "Year: " + showFromList.premiered.substring(0, 4);
+  status.innerHTML = "Status: " + showFromList.status;
+  runtime.innerHTML = "Runtime: " + showFromList.runtime + " min";
   infoAboutShow.append(rating, genres, year, status, runtime);
 }
 
@@ -146,7 +159,12 @@ function createOneEpisode(episodeFromList) {
   let img = document.createElement("img");
   let title = document.createElement("h1");
   let paragraph = document.createElement("p");
-  img.src = episodeFromList.image.medium;
+  if (episodeFromList.image === null) {
+    img.src = "/media/no-image-available.jpg";
+  } else {
+    img.src = episodeFromList.image.medium;
+  }
+
   title.innerHTML = `${createEpisodeName(
     episodeFromList.season,
     episodeFromList.number
@@ -229,17 +247,21 @@ function createLiveSearch(list) {
 
   const allEpisodes = list;
   let search_episode = "";
-  let count = 0;
+  // let count = 0;
 
   const showList = () => {
-    count = 0;
+    let count = 0;
     episodes.innerHTML = " ";
     allEpisodes
       .filter((episode) => {
-        return (
-          episode.summary.toLowerCase().includes(search_episode) ||
-          episode.name.toLowerCase().includes(search_episode)
-        );
+        if (episode.summary !== null || episode.summary !== "") {
+          return episode.name.toLowerCase().includes(search_episode);
+        } else {
+          return (
+            episode.summary.toLowerCase().includes(search_episode) ||
+            episode.name.toLowerCase().includes(search_episode)
+          );
+        }
       })
       .forEach((e) => {
         count++;
