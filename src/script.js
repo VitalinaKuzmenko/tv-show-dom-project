@@ -1,52 +1,9 @@
 function setup() {
   let showsList = getAllShows();
-  // createSelectMenuShows(showsList);
+  // createSelectMenuShowsForEpisodes(showsList);
   makePageForShows(showsList);
   createLiveShowSearch(showsList);
-}
-
-function createSelectMenuShows(showsList) {
-  const filterSection = document.querySelector(".filter-menu");
-  const selectMenuShow = document.createElement("select");
-  selectMenuShow.classList.add("select-menu", "select-show");
-  selectMenuShow.setAttribute("name", "names_of_shows");
-  filterSection.appendChild(selectMenuShow);
-
-  //creating all shows value
-  let option = document.createElement("option");
-  option.innerHTML = "All shows";
-  option.setAttribute("value", `All shows`);
-  selectMenuShow.appendChild(option);
-
-  //sorting list
-  showsList.sort((a, b) => {
-    let fa = a.name.toLowerCase(),
-      fb = b.name.toLowerCase();
-
-    if (fa < fb) {
-      return -1;
-    }
-    if (fa > fb) {
-      return 1;
-    }
-    return 0;
-  });
-
-  //creating options
-  showsList.forEach((show) => {
-    let option = document.createElement("option");
-    let value = show.name;
-    option.innerHTML = value;
-    option.setAttribute("value", `${value}`);
-    selectMenuShow.appendChild(option);
-  });
-  selectMenuShow.addEventListener("change", (event) => {
-    const resultShow = showsList.find((show) => {
-      return event.target.value.includes(show.name);
-    });
-    console.log(resultShow.id);
-    fetchAllEpisodesList(resultShow.id);
-  });
+  createSelectMenuShow(showsList);
 }
 
 function makePageForShows(showsList) {
@@ -171,6 +128,54 @@ function createLiveShowSearch(list) {
   });
 }
 
+//creating select menu for choosing one show from the list
+function createSelectMenuShow(showList) {
+  const shows = document.querySelector(".shows");
+  const filterSection = document.querySelector(".filter-menu");
+  const element = document.querySelector(".select-show");
+
+  //checking if element exists. If yes - delete, if no - create a new one.
+  if (element) {
+    element.remove();
+  }
+
+  const selectMenuShow = document.createElement("select");
+  selectMenuShow.classList.add("select-menu", "select-show");
+  selectMenuShow.setAttribute("name", "names_of_shows");
+  filterSection.appendChild(selectMenuShow);
+
+  //creating all episodes value
+  let option = document.createElement("option");
+  option.innerHTML = "All shows";
+  option.setAttribute("value", `All shows`);
+  selectMenuShow.appendChild(option);
+
+  //creating options
+  showList.forEach((showFromList) => {
+    let option = document.createElement("option");
+    let value = showFromList.name;
+    option.innerHTML = value;
+    option.setAttribute("value", `${value}`);
+    selectMenuShow.appendChild(option);
+  });
+
+  selectMenuShow.addEventListener("change", (event) => {
+    shows.innerHTML = " ";
+    if (event.target.value === "All shows") {
+      showList.forEach((show) => {
+        createOneShow(show);
+      });
+      createAmountOfShows();
+    } else {
+      const result = showList.find((show) => {
+        return event.target.value.includes(show.name);
+      });
+      createOneShow(result);
+      createAmountOfShows();
+    }
+  });
+}
+
 //creating information for displaying amount of shows on the screen
 function createAmountOfShows() {
   const shows = document.querySelector(".shows");
@@ -200,6 +205,51 @@ function showEventListener(showList) {
   let image = document.querySelector(".div1").querySelector("image");
 
   // title.addEventListener("click", createSelectMenuEpisode(showsList));
+}
+
+//the function for choosing show on episode page
+function createSelectMenuShowsForEpisodes(showsList) {
+  const filterSection = document.querySelector(".filter-menu");
+  const selectMenuShow = document.createElement("select");
+  selectMenuShow.classList.add("select-menu", "select-show");
+  selectMenuShow.setAttribute("name", "names_of_shows");
+  filterSection.appendChild(selectMenuShow);
+
+  //creating all shows value
+  let option = document.createElement("option");
+  option.innerHTML = "All shows";
+  option.setAttribute("value", `All shows`);
+  selectMenuShow.appendChild(option);
+
+  //sorting list
+  showsList.sort((a, b) => {
+    let fa = a.name.toLowerCase(),
+      fb = b.name.toLowerCase();
+
+    if (fa < fb) {
+      return -1;
+    }
+    if (fa > fb) {
+      return 1;
+    }
+    return 0;
+  });
+
+  //creating options
+  showsList.forEach((show) => {
+    let option = document.createElement("option");
+    let value = show.name;
+    option.innerHTML = value;
+    option.setAttribute("value", `${value}`);
+    selectMenuShow.appendChild(option);
+  });
+  selectMenuShow.addEventListener("change", (event) => {
+    const resultShow = showsList.find((show) => {
+      return event.target.value.includes(show.name);
+    });
+    console.log(resultShow.id);
+    fetchAllEpisodesList(resultShow.id);
+  });
 }
 
 // getting episodes list from API
@@ -300,7 +350,7 @@ function createSelectMenuEpisode(episodeList) {
   });
 
   selectMenuEpisode.addEventListener("change", (event) => {
-    episodes.innerHTML = " ";
+    episodes.innerHTML = "";
     if (event.target.value === "All episodes") {
       episodeList.forEach((episode) => {
         createOneEpisode(episode);
