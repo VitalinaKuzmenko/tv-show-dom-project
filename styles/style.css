@@ -13,6 +13,27 @@ body {
 main {
   background-image: linear-gradient(to right, #050343, #a0090a, #050343);
 }
+.shows {
+  display: flex;
+  /* flex-flow: row wrap; */
+  flex-direction: column;
+  color: white;
+  margin-top: 50px;
+  width: 90%;
+}
+
+.shows img {
+  width: 240px;
+  height: auto;
+  border: 1px solid white;
+  border-radius: 20px;
+}
+
+.shows .show {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 /* filter menu */
 .filter-menu {
