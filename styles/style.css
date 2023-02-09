@@ -40,12 +40,50 @@ main {
   height: auto;
   border: 1px solid white;
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .shows h1 {
   font-family: var(--title-font);
   font-size: 26px;
   margin-top: 15px;
+  cursor: pointer;
+  position: relative;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.show h1::after {
+  content: "";
+  width: 0%;
+  height: 3px;
+  border-radius: 99px;
+  background: white;
+  background: #0f043b;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: 0.3s ease;
+}
+
+.shows h1:hover::after {
+  width: 100%;
+}
+
+.shows h1:hover {
+  color: #0f043b;
+}
+
+nav ul li a::after {
+  content: "";
+  width: 0%;
+  height: 1.7px;
+  border-radius: 99px;
+  background: var(--main-clr);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: 0.3s ease;
 }
 
 .shows p {

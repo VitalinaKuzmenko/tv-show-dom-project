@@ -1,7 +1,7 @@
 function setup() {
   let showsList = getAllShows();
-  createSelectMenuShows(showsList);
-  // makePageForShows(showsList);
+  // createSelectMenuShows(showsList);
+  makePageForShows(showsList);
 }
 
 function createSelectMenuShows(showsList) {
