@@ -1,23 +1,29 @@
 function setup() {
-  let allEpisodes = [];
-  fetchEpisodeList();
-  makePageForEpisodes(allEpisodes);
-  createSelectMenuEpisode(allEpisodes);
-  createLiveSearch();
+  fetchAllEpisodesList();
+  let showsList = getAllShows();
+  createSelectMenuShows(showsList);
+  makePageForShows(showsList);
 }
 
-//getting episode list from API
+// getting episodes list from API
 async function fetchAllEpisodesList() {
-  try {
-    const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
-    if (response.status === 404) throw new Error("Episodes are not found");
-    const data = await response.json();
-    episodesList = data;
-    console.log(data);
-  } catch (error) {
-    console.log("error", error);
-  }
+  fetch("https://api.tvmaze.com/shows/82/episodes")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      let episodeList = data;
+      makePageForEpisodes(episodeList); //displaying episodes
+      createSelectMenuEpisode(episodeList); //creating selectMenu episodes
+      createLiveSearch(); // creating live search
+    })
+    .catch((err) => console.error(`Fetch problem: ${err.message}`));
 }
+
+function makePageForShows(showsList) {}
 
 //creating the list with episodes, adding all the episodes from the array to this list
 function makePageForEpisodes(episodeList) {
@@ -57,6 +63,74 @@ function createOneEpisode(episodeFromList) {
   episode.appendChild(img);
   episode.appendChild(title);
   episode.appendChild(paragraph);
+}
+
+function createSelectMenuShows(allShows) {
+  const filterSection = document.querySelector(".filter-menu");
+  const selectMenuShow = document.createElement("select");
+  selectMenuShow.classList.add("select-menu", "select-show");
+  selectMenuShow.setAttribute("name", "names_of_shows");
+  filterSection.appendChild(selectMenuShow);
+
+  //creating all shows value
+  let option = document.createElement("option");
+  option.innerHTML = "All shows";
+  option.setAttribute("value", `All shows`);
+  selectMenuShow.appendChild(option);
+
+  //creating options
+  allShows.forEach((show) => {
+    let option = document.createElement("option");
+    let value = show.name;
+    option.innerHTML = value;
+    option.setAttribute("value", `${value}`);
+    selectMenuShow.appendChild(option);
+  });
+  selectMenuShow.addEventListener("change", (event) => {});
+}
+
+//creating select menu for choosing one episode from the list
+function createSelectMenuEpisode(episodeList) {
+  const filterSection = document.querySelector(".filter-menu");
+  const selectMenuEpisode = document.createElement("select");
+  const episodes = document.querySelector(".episodes");
+  selectMenuEpisode.classList.add("select-menu", "select-episode");
+  selectMenuEpisode.setAttribute("name", "names_of_episodes");
+  filterSection.appendChild(selectMenuEpisode);
+
+  //creating all episodes value
+  let option = document.createElement("option");
+  option.innerHTML = "All episodes";
+  option.setAttribute("value", `All episodes`);
+  selectMenuEpisode.appendChild(option);
+
+  //creating options
+  episodeList.forEach((episodeFromList) => {
+    let option = document.createElement("option");
+    let value = `${createEpisodeName(
+      episodeFromList.season,
+      episodeFromList.number
+    )} - ${episodeFromList.name}`;
+    option.innerHTML = value;
+    option.setAttribute("value", `${value}`);
+    selectMenuEpisode.appendChild(option);
+  });
+
+  selectMenuEpisode.addEventListener("change", (event) => {
+    episodes.innerHTML = " ";
+    if (event.target.value === "All episodes") {
+      episodeList.forEach((episode) => {
+        createOneEpisode(episode);
+      });
+      changeAmountOfEpisodes(episodeList);
+    } else {
+      const result = episodeList.find((episode) => {
+        return event.target.value.includes(episode.name);
+      });
+      createOneEpisode(result);
+      changeAmountOfEpisodes(episodeList);
+    }
+  });
 }
 
 // creating live search input for episodes
@@ -109,7 +183,7 @@ function createLiveSearch() {
 }
 
 // changing the info about amount of episodes on the screen
-function changeAmountOfEpisodes(allEpisodes) {
+function changeAmountOfEpisodes(episodeList) {
   const episodes = document.querySelector(".episodes");
   let amountOfEpisodes1 = document.querySelector(".amount-of-episodes");
   let liNodes = [];
@@ -118,53 +192,8 @@ function changeAmountOfEpisodes(allEpisodes) {
     if (episodes.childNodes[i].nodeName == "LI") {
       liNodes.push(episodes.childNodes[i]);
     }
-    amountOfEpisodes1.innerHTML = `Displaying ${liNodes.length}/${allEpisodes.length} episodes`;
+    amountOfEpisodes1.innerHTML = `Displaying ${liNodes.length}/${episodeList.length} episodes`;
   }
-}
-
-//creating select menu for choosing one episode from the list
-function createSelectMenuEpisode(allEpisodes) {
-  const filterSection = document.querySelector(".filter-menu");
-  const selectMenuEpisode = document.createElement("select");
-  const episodes = document.querySelector(".episodes");
-
-  selectMenuEpisode.classList.add("select-episode");
-  selectMenuEpisode.setAttribute("name", "names_of_episodes");
-  filterSection.appendChild(selectMenuEpisode);
-
-  //creating all episodes value
-  let option = document.createElement("option");
-  option.innerHTML = "All episodes";
-  option.setAttribute("value", `All episodes`);
-  selectMenuEpisode.appendChild(option);
-
-  //creating options
-  allEpisodes.forEach((episodeFromList) => {
-    let option = document.createElement("option");
-    let value = `${createEpisodeName(
-      episodeFromList.season,
-      episodeFromList.number
-    )} - ${episodeFromList.name}`;
-    option.innerHTML = value;
-    option.setAttribute("value", `${value}`);
-    selectMenuEpisode.appendChild(option);
-  });
-
-  selectMenuEpisode.addEventListener("change", (event) => {
-    episodes.innerHTML = " ";
-    if (event.target.value === "All episodes") {
-      allEpisodes.forEach((episode) => {
-        createOneEpisode(episode);
-      });
-      changeAmountOfEpisodes(allEpisodes);
-    } else {
-      const result = allEpisodes.find((episode) => {
-        return event.target.value.includes(episode.name);
-      });
-      createOneEpisode(result);
-      changeAmountOfEpisodes(allEpisodes);
-    }
-  });
 }
 
 window.onload = setup;
