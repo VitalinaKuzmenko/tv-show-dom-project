@@ -47,7 +47,7 @@ main {
   margin-top: 10px;
 }
 
-.filter-menu .select-episode {
+.filter-menu .select-menu {
   width: 100%;
   padding: 10px;
   border: 1px solid white;
@@ -133,9 +133,13 @@ footer hr {
     width: 72%;
   }
 
-  .filter-menu .select-episode {
+  .filter-menu .select-menu {
     width: 30%;
     margin-bottom: 0;
+  }
+
+  .filter-menu .select-episode {
+    margin-left: 15px;
   }
 
   .filter-menu .search-episode {

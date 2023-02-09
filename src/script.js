@@ -1,13 +1,11 @@
 function setup() {
-  fetchAllEpisodesList();
   let showsList = getAllShows();
   createSelectMenuShows(showsList);
-  makePageForShows(showsList);
 }
 
 // getting episodes list from API
-async function fetchAllEpisodesList() {
-  fetch("https://api.tvmaze.com/shows/82/episodes")
+async function fetchAllEpisodesList(numOfShow) {
+  fetch(`https://api.tvmaze.com/shows/${numOfShow}/episodes`)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`);
@@ -15,15 +13,14 @@ async function fetchAllEpisodesList() {
       return response.json();
     })
     .then((data) => {
+      console.log(data);
       let episodeList = data;
       makePageForEpisodes(episodeList); //displaying episodes
       createSelectMenuEpisode(episodeList); //creating selectMenu episodes
-      createLiveSearch(); // creating live search
+      createLiveSearch(episodeList); // creating live search
     })
     .catch((err) => console.error(`Fetch problem: ${err.message}`));
 }
-
-function makePageForShows(showsList) {}
 
 //creating the list with episodes, adding all the episodes from the array to this list
 function makePageForEpisodes(episodeList) {
@@ -65,7 +62,7 @@ function createOneEpisode(episodeFromList) {
   episode.appendChild(paragraph);
 }
 
-function createSelectMenuShows(allShows) {
+function createSelectMenuShows(showsList) {
   const filterSection = document.querySelector(".filter-menu");
   const selectMenuShow = document.createElement("select");
   selectMenuShow.classList.add("select-menu", "select-show");
@@ -78,22 +75,50 @@ function createSelectMenuShows(allShows) {
   option.setAttribute("value", `All shows`);
   selectMenuShow.appendChild(option);
 
+  //sorting list
+  showsList.sort((a, b) => {
+    let fa = a.name.toLowerCase(),
+      fb = b.name.toLowerCase();
+
+    if (fa < fb) {
+      return -1;
+    }
+    if (fa > fb) {
+      return 1;
+    }
+    return 0;
+  });
+
   //creating options
-  allShows.forEach((show) => {
+  showsList.forEach((show) => {
     let option = document.createElement("option");
     let value = show.name;
     option.innerHTML = value;
     option.setAttribute("value", `${value}`);
     selectMenuShow.appendChild(option);
   });
-  selectMenuShow.addEventListener("change", (event) => {});
+  selectMenuShow.addEventListener("change", (event) => {
+    const resultShow = showsList.find((show) => {
+      return event.target.value.includes(show.name);
+    });
+    console.log(resultShow);
+    console.log(resultShow.id);
+    fetchAllEpisodesList(resultShow.id);
+  });
 }
 
 //creating select menu for choosing one episode from the list
 function createSelectMenuEpisode(episodeList) {
-  const filterSection = document.querySelector(".filter-menu");
-  const selectMenuEpisode = document.createElement("select");
   const episodes = document.querySelector(".episodes");
+  const filterSection = document.querySelector(".filter-menu");
+  const element = document.querySelector(".select-episode");
+
+  //checking if element exists. If yes - delete, if no - create a new one.
+  if (element) {
+    element.remove();
+  }
+
+  const selectMenuEpisode = document.createElement("select");
   selectMenuEpisode.classList.add("select-menu", "select-episode");
   selectMenuEpisode.setAttribute("name", "names_of_episodes");
   filterSection.appendChild(selectMenuEpisode);
@@ -122,21 +147,28 @@ function createSelectMenuEpisode(episodeList) {
       episodeList.forEach((episode) => {
         createOneEpisode(episode);
       });
-      changeAmountOfEpisodes(episodeList);
+      createAmountOfEpisodes(episodeList);
     } else {
       const result = episodeList.find((episode) => {
         return event.target.value.includes(episode.name);
       });
       createOneEpisode(result);
-      changeAmountOfEpisodes(episodeList);
+      createAmountOfEpisodes(episodeList);
     }
   });
 }
 
 // creating live search input for episodes
-function createLiveSearch() {
+function createLiveSearch(list) {
   const filterSection = document.querySelector(".filter-menu");
   const episodes = document.querySelector(".episodes");
+  const element = document.querySelector(".search-episode");
+
+  //checking if element exists. If yes - delete, if no - create a new one.
+  if (element) {
+    element.remove();
+  }
+
   const search = document.createElement("input");
   search.classList.add("search-episode");
   filterSection.appendChild(search);
@@ -145,7 +177,7 @@ function createLiveSearch() {
   search.setAttribute("id", "search");
   search.setAttribute("placeholder", "Search for episode...");
 
-  const allEpisodes = getAllEpisodes();
+  const allEpisodes = list;
   let search_episode = "";
   let count = 0;
 
@@ -166,33 +198,36 @@ function createLiveSearch() {
   };
   showList();
 
-  const showAmountOfEpisodes = () => {
-    let amountOfEpisodes = document.createElement("p");
-    amountOfEpisodes.classList.add("amount-of-episodes");
-    filterSection.appendChild(amountOfEpisodes);
-    amountOfEpisodes.innerHTML = `Displaying ${allEpisodes.length}/${allEpisodes.length} episodes`;
-  };
-
-  showAmountOfEpisodes();
+  createAmountOfEpisodes(allEpisodes);
 
   search.addEventListener("input", (event) => {
     search_episode = event.target.value.toLowerCase();
     showList();
-    changeAmountOfEpisodes(allEpisodes);
+    createAmountOfEpisodes(allEpisodes);
   });
 }
 
 // changing the info about amount of episodes on the screen
-function changeAmountOfEpisodes(episodeList) {
+function createAmountOfEpisodes(episodeList) {
   const episodes = document.querySelector(".episodes");
-  let amountOfEpisodes1 = document.querySelector(".amount-of-episodes");
+  const filterSection = document.querySelector(".filter-menu");
+  const element = document.querySelector(".amount-of-episodes");
+
+  //checking if element exists. If yes - delete, if no - create a new one.
+  if (element) {
+    element.remove();
+  }
+
+  let amountOfEpisodes = document.createElement("p");
+  amountOfEpisodes.classList.add("amount-of-episodes");
+  filterSection.appendChild(amountOfEpisodes);
   let liNodes = [];
 
   for (var i = 0; i < episodes.childNodes.length; i++) {
     if (episodes.childNodes[i].nodeName == "LI") {
       liNodes.push(episodes.childNodes[i]);
     }
-    amountOfEpisodes1.innerHTML = `Displaying ${liNodes.length}/${episodeList.length} episodes`;
+    amountOfEpisodes.innerHTML = `Displaying ${liNodes.length}/${episodeList.length} episodes`;
   }
 }
 
