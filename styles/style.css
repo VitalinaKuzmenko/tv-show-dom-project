@@ -63,7 +63,7 @@ main {
 
 .shows img {
   width: 240px;
-  height: 140px;
+  height: auto;
   border: 1px solid white;
   border-radius: 20px;
   cursor: pointer;
@@ -191,7 +191,7 @@ p {
 
 .episode img {
   width: 300px;
-  height: auto;
+  height: 140px;
   border: 1px solid white;
   border-radius: 20px;
 }
