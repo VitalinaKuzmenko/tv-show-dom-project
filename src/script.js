@@ -1,5 +1,52 @@
 function setup() {
+  createWebpagePath();
   createAllShowsList();
+}
+
+function createWebpagePath() {
+  const root = document.getElementById("root");
+  let webpagePath = document.createElement("ul");
+  webpagePath.classList.add("webpagePath");
+  root.appendChild(webpagePath);
+
+  let li1 = document.createElement("li");
+  li1.innerHTML = "TV Project";
+  webpagePath.appendChild(li1);
+  li1.classList.add("main-page-path");
+
+  let span1 = document.createElement("span");
+  span1.innerHTML = "/";
+  span1.classList.add("span1");
+  webpagePath.appendChild(span1);
+
+  let li2 = document.createElement("li");
+  li2.innerHTML = "Shows";
+  webpagePath.appendChild(li2);
+  li2.classList.add("shows-path");
+
+  let span2 = document.createElement("span");
+  span2.innerHTML = "/";
+  span2.classList.add("span2", "not-active");
+  webpagePath.appendChild(span2);
+
+  let li3 = document.createElement("li");
+  li3.innerHTML = "Episodes";
+  webpagePath.appendChild(li3);
+  li3.classList.add("episodes-path", "not-active");
+
+  li2.addEventListener("click", () => {
+    let showWrapper = document.getElementById("show-wrapper");
+    showWrapper.classList.remove("not-active");
+
+    let episodeWrapper = document.getElementById("episode-wrapper");
+    episodeWrapper.classList.add("not-active");
+
+    let episodesPath = document.querySelector(".episodes-path");
+    episodesPath.classList.add("not-active");
+
+    let span2 = document.querySelector(".span2");
+    span2.classList.add("not-active");
+  });
 }
 
 function createAllShowsList() {
@@ -237,9 +284,25 @@ function showEventListener(showsList) {
       let resultShow = showsList.find((show) => {
         return show.name === title.textContent;
       });
+
+      let episodeWrapper = document.getElementById("episode-wrapper");
+      if (episodeWrapper) {
+        episodeWrapper.remove();
+      }
+
       createAllEpisodesList(showsList, resultShow.name, resultShow.id);
       let showWrapper = document.getElementById("show-wrapper");
       showWrapper.classList.add("not-active");
+
+      // let episodeWrapper = document.getElementById("episode-wrapper");
+      episodeWrapper.classList.remove("not-active");
+
+      let episodesPath = document.querySelector(".episodes-path");
+      episodesPath.classList.remove("not-active");
+      episodesPath.innerHTML = `Episodes: ${resultShow.name}`;
+
+      let span2 = document.querySelector(".span2");
+      span2.classList.remove("not-active");
     });
   });
 
@@ -248,16 +311,28 @@ function showEventListener(showsList) {
       let resultShow = showsList.find((show) => {
         return show.image.medium === image.src;
       });
+
+      let episodeWrapper = document.getElementById("episode-wrapper");
+      if (episodeWrapper) {
+        episodeWrapper.remove();
+      }
+
       createAllEpisodesList(showsList, resultShow.name, resultShow.id);
       let showWrapper = document.getElementById("show-wrapper");
       showWrapper.classList.add("not-active");
+
+      let episodesPath = document.querySelector(".episodes-path");
+      episodesPath.classList.remove("not-active");
+      episodesPath.innerHTML = `Episodes: ${resultShow.name}`;
+
+      let span2 = document.querySelector(".span2");
+      span2.classList.remove("not-active");
     });
   });
 }
 
 function createAllEpisodesList(showsList, showName, showId) {
   fetchAllEpisodesList(showsList, showName, showId);
-  // createSelectMenuShowsForEpisodes(showsList, showName);
 }
 
 // getting episodes list from API

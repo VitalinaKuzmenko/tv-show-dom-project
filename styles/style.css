@@ -17,6 +17,27 @@ main {
   display: none;
 }
 
+.webpagePath {
+  display: block;
+  margin: 0 auto;
+  width: 80%;
+  color: white;
+  font-family: var(--p-font);
+  font-size: 20px;
+  list-style: none;
+  display: flex;
+  margin-top: 70px;
+}
+
+.webpagePath li {
+  padding: 0 5px;
+  cursor: pointer;
+}
+
+.webpagePath li:hover {
+  text-decoration: underline;
+}
+
 .shows {
   display: block;
   margin: 0 auto;
@@ -108,7 +129,7 @@ nav ul li a::after {
   display: flex;
   flex-flow: row wrap;
   color: white;
-  margin-top: 50px;
+  margin-top: 30px;
   width: 70%;
   font-size: 20px;
 }
