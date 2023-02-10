@@ -113,7 +113,7 @@ nav ul li a::after {
   font-size: 20px;
 }
 
-.filter-menu .search-episode {
+.filter-menu .search-input {
   width: 100%;
   padding: 10px;
   border: 1px solid white;
@@ -128,7 +128,9 @@ nav ul li a::after {
   font-family: var(--p-font);
 }
 
-.filter-menu .amount-of-episodes {
+.filter-menu .amount-of-episodes,
+.amount-of-shows,
+p {
   font-family: var(--p-font);
   margin-left: 5px;
   margin-top: 10px;
@@ -247,7 +249,7 @@ footer hr {
     margin-left: 15px;
   }
 
-  .filter-menu .search-episode {
+  .filter-menu .search-input {
     margin-left: 15px;
     width: 30%;
   }

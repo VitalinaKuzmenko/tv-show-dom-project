@@ -1,9 +1,10 @@
 function setup() {
   let showsList = getAllShows();
   // createSelectMenuShowsForEpisodes(showsList);
+
   makePageForShows(showsList);
-  createLiveShowSearch(showsList);
   createSelectMenuShow(showsList);
+  createLiveShowSearch(showsList);
 }
 
 function makePageForShows(showsList) {
@@ -79,21 +80,18 @@ function createLiveShowSearch(list) {
   const element = document.querySelector(".search-show");
 
   //checking if element exists. If yes - delete, if no - create a new one.
-  if (element) {
-    element.remove();
-  }
-
-  const p = document.createElement("p");
-  p.innerHTML = "Filtering for";
-  filterSection.appendChild(p);
+  // if (element) {
+  //   element.remove();
+  //   console.log("remove");
+  // }
 
   const search = document.createElement("input");
-  search.classList.add("search-show");
+  search.classList.add("search-show", "search-input");
   filterSection.appendChild(search);
   search.setAttribute("autocomplete", "off");
   search.setAttribute("type", "search");
   search.setAttribute("id", "search");
-  search.setAttribute("placeholder", "Search for episode...");
+  search.setAttribute("placeholder", "Search for show...");
 
   const allShows = list;
   let search_show = "";
@@ -190,6 +188,7 @@ function createAmountOfShows() {
   let amountOfShows = document.createElement("p");
   amountOfShows.classList.add("amount-of-shows");
   filterSection.appendChild(amountOfShows);
+
   let liNodes = [];
 
   for (var i = 0; i < shows.childNodes.length; i++) {
@@ -378,7 +377,7 @@ function createLiveEpisodeSearch(list) {
   }
 
   const search = document.createElement("input");
-  search.classList.add("search-episode");
+  search.classList.add("search-episode", "search-input");
   filterSection.appendChild(search);
   search.setAttribute("autocomplete", "off");
   search.setAttribute("type", "search");
