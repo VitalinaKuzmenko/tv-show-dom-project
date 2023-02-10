@@ -237,6 +237,7 @@ function createSelectMenuShow(showList) {
       showList.forEach((show) => {
         createOneShow(show);
       });
+      showEventListener(showList);
       createAmountOfShows();
     } else {
       const result = showList.find((show) => {
