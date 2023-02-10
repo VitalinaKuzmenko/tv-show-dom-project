@@ -450,7 +450,10 @@ function createSelectMenuShowsForEpisodes(showsList, showName) {
     let episodes = document.querySelector(".episodes");
     episodes.innerHTML = "";
 
+    let episodesPath = document.querySelector(".episodes-path");
+
     const result = showsList.find((show) => {
+      episodesPath.innerHTML = `Episodes: ${event.target.value}`;
       return event.target.value === show.name;
     });
 
