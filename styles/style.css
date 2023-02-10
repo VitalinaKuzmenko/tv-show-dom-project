@@ -27,6 +27,7 @@ main {
   list-style: none;
   display: flex;
   margin-top: 70px;
+  flex-wrap: wrap;
 }
 
 .webpagePath li {
