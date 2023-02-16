@@ -155,7 +155,6 @@ nav ul li a::after {
 .amount-of-shows,
 p {
   font-family: var(--p-font);
-  margin-left: 5px;
   margin-top: 10px;
 }
 
